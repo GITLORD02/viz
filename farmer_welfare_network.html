@@ -1,0 +1,66 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <script src="https://cdn.jsdelivr.net/npm/vis-network@9.1.9/standalone/umd/vis-network.min.js"></script>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background: white;
+      font-family: Arial, sans-serif;
+    }
+    #network {
+      width: 100vw;
+      height: 100vh;
+    }
+  </style>
+</head>
+<body>
+<div id="network"></div>
+<script type="text/javascript">
+  const nodes = new vis.DataSet([{"id": "1", "label": "1. Knowledge & Agri-Advisory", "title": "Purpose: Timely crop-specific advice\nGovt: KVKs, ICAR, AgriStack\nInit: mKisan, Digital Krishi", "shape": "dot", "size": 18}, {"id": "2", "label": "2. Technology & Data", "title": "Purpose: Smart targeting, innovation\nGovt: AgriStack, DPI, GIS\nInit: AgriStack, Crop Surveys", "shape": "dot", "size": 18}, {"id": "3", "label": "3. Inputs & Infra Access", "title": "Purpose: Quality affordable inputs\nGovt: DBT, PMKSY, CHCs\nInit: Fertilizer DBT, eNAM, CHCs", "shape": "dot", "size": 18}, {"id": "4", "label": "4. Financial Inclusion", "title": "Purpose: Insurance, credit access\nGovt: PMFBY, KCC, PM-KISAN\nInit: KCC, Jan Dhan, PMFBY", "shape": "dot", "size": 18}, {"id": "5", "label": "5. Climate Resilience", "title": "Purpose: Sustainable productivity\nGovt: NMSA, PM-KUSUM\nInit: GOBARdhan, PM-KUSUM", "shape": "dot", "size": 18}, {"id": "6", "label": "6. Market Linkages", "title": "Purpose: Better prices, reduced distress sales\nGovt: eNAM, MSP, SFAC\nInit: eNAM, AIF, PM-FME", "shape": "dot", "size": 18}, {"id": "7", "label": "7. Community Institutions", "title": "Purpose: Local governance, peer learning\nGovt: NABARD, SHGs\nInit: DAY-NRLM, eShakti", "shape": "dot", "size": 18}, {"id": "8", "label": "8. Social Welfare", "title": "Purpose: Health, education, security\nGovt: Ayushman, PMUY, Pension\nInit: PM-SVANidhi, PMUY", "shape": "dot", "size": 18}, {"id": "9", "label": "9. Mental Health & Dignity", "title": "Purpose: Farmer recognition, suicide prevention\nGovt: Helplines, awards\nInit: Helplines, redressals", "shape": "dot", "size": 18}]);
+  const edges = new vis.DataSet([{"from": "1", "to": "3", "title": "Synergy: Advisory guides input choices"}, {"from": "1", "to": "6", "title": "Synergy: Aligns crops with market demand"}, {"from": "1", "to": "5", "title": "Synergy: Promotes sustainable practices"}, {"from": "1", "to": "2", "title": "Synergy: Feeds into data-driven systems"}, {"from": "2", "to": "1", "title": "Synergy: Tech enables smarter advisories"}, {"from": "2", "to": "3", "title": "Synergy: Drives targeted subsidies"}, {"from": "2", "to": "5", "title": "Synergy: Supports climate monitoring"}, {"from": "2", "to": "6", "title": "Synergy: Real-time price discovery"}, {"from": "3", "to": "4", "title": "Synergy: Infra access boosts credit use"}, {"from": "3", "to": "5", "title": "Synergy: Inputs improve resilience"}, {"from": "3", "to": "6", "title": "Synergy: Improves marketable output"}, {"from": "4", "to": "3", "title": "Synergy: Funds input/infrastructure access"}, {"from": "4", "to": "6", "title": "Synergy: Avoids distress selling"}, {"from": "4", "to": "8", "title": "Synergy: Income spillover to welfare"}, {"from": "4", "to": "9", "title": "Synergy: Reduces financial stress"}, {"from": "5", "to": "1", "title": "Synergy: Needs farmer training"}, {"from": "5", "to": "2", "title": "Synergy: Uses GIS for planning"}, {"from": "5", "to": "3", "title": "Synergy: Resilient inputs needed"}, {"from": "6", "to": "4", "title": "Synergy: Price realization boosts income"}, {"from": "6", "to": "7", "title": "Synergy: FPOs improve bargaining"}, {"from": "6", "to": "8", "title": "Synergy: Income improves welfare access"}, {"from": "7", "to": "6", "title": "Synergy: Collective marketing"}, {"from": "7", "to": "1", "title": "Synergy: Peer learning of best practices"}, {"from": "7", "to": "8", "title": "Synergy: SHGs drive social support"}, {"from": "7", "to": "9", "title": "Synergy: Community support systems"}, {"from": "8", "to": "4", "title": "Synergy: Frees farm income for reinvestment"}, {"from": "8", "to": "7", "title": "Synergy: Empowers SHGs"}, {"from": "8", "to": "9", "title": "Synergy: Eases mental stress"}, {"from": "9", "to": "4", "title": "Synergy: Reduced distress improves repayment"}, {"from": "9", "to": "7", "title": "Synergy: Recognition builds cohesion"}, {"from": "9", "to": "8", "title": "Synergy: Dignity improves welfare uptake"}]);
+
+  const container = document.getElementById('network');
+  const data = { nodes, edges };
+  const options = {
+    layout: { improvedLayout: true },
+    edges: {
+      arrows: { to: { enabled: true, scaleFactor: 0.4 } },
+      color: { color: '#999' },
+      smooth: { type: 'dynamic' },
+      font: { align: 'top' },
+      hoverWidth: 1.5
+    },
+    nodes: {
+      color: { background: '#ADD8E6', border: 'black', highlight: { background: '#d2e5ff' } },
+      font: { size: 13 },
+      shape: 'dot'
+    },
+    physics: {
+      enabled: true,
+      solver: 'forceAtlas2Based',
+      forceAtlas2Based: {
+        gravitationalConstant: -50,
+        centralGravity: 0.005,
+        springLength: 160,
+        springConstant: 0.04
+      },
+      stabilization: { iterations: 200 }
+    },
+    interaction: {
+      hover: true,
+      tooltipDelay: 50,
+      zoomView: true,
+      dragView: true
+    }
+  };
+
+  const network = new vis.Network(container, data, options);
+</script>
+</body>
+</html>
